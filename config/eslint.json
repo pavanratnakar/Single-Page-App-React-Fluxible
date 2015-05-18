@@ -1,0 +1,23 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "plugins": [
+        "react"
+    ],
+    "globals": {
+        "$": false,
+        "jQuery": false
+    },
+    "rules": {
+        "no-underscore-dangle": false,
+        "semi": 2
+    },
+    "ecmaFeatures": {
+        "blockBindings": true,
+        "forOf": true,
+        "jsx": true
+    }
+}
