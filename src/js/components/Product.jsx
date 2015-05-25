@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require("react"),
-    ProductActions = require('../actions/ProductActions');
+    productActions = require("../actions/ProductActions");
 
 // Export the ReactApp component
 var Product = React.createClass({
@@ -12,7 +12,10 @@ var Product = React.createClass({
     },
 
     clickHandler: function (e) {
-        ProductActions.selectProduct($(e.currentTarget).data('index'));
+        this.props.context.executeAction(productActions, {
+            type: "selectProduct",
+            data: $(e.currentTarget).data("index")
+        }, function () {});
     },
 
     render: function () {

@@ -5,14 +5,17 @@ module.exports = function (context, payload, done) {
 
         case "selectCategory":
         context.dispatch("CATEGORY_SELECTED", payload.data);
+        done();
         break;
 
         case "deSelectCategory":
         context.dispatch("CATEGORY_DESELECTED", payload.data);
+        done();
         break;
 
         case "deSelectCategories":
         context.dispatch("CATEGORY_DESELECTED", payload.data);
+        done();
         break;
 
         case "receiveCategories":

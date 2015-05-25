@@ -14,13 +14,13 @@ var Html = React.createClass({
                     <meta charSet="utf-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                     <title>{this.getStore(ApplicationStore).getPageTitle()}</title>
-                    <link href="dist/style_less.min.css" rel="stylesheet" />
+                    <link href="/dist/style_less.min.css" rel="stylesheet" />
                 </head>
                 <body>
                     <section id="react-app" dangerouslySetInnerHTML={{__html: this.props.markup}}></section>
                     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
                     <script dangerouslySetInnerHTML={{__html: this.props.state}}></script>
-                    <script src="dist/react/bundle.js"></script>
+                    <script src="/dist/react/bundle.js"></script>
                 </body>
             </html>
         );

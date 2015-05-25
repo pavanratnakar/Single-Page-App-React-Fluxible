@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require("react"),
-    ProductActions = require('../actions/ProductActions');
+    productActions = require("../actions/ProductActions");
 
 // Export the ReactApp component
 var Overlay = React.createClass({
@@ -13,7 +13,9 @@ var Overlay = React.createClass({
     },
 
     closeClickHandler: function () {
-        ProductActions.deSelectProduct();
+        this.props.context.executeAction(productActions, {
+            type: "deSelectProduct"
+        }, function () {});
     },
 
     render: function () {

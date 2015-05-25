@@ -6,10 +6,12 @@ module.exports = function (context, payload, done) {
 
         case "selectProduct":
         context.dispatch("PRODUCT_SELECTED", payload.data);
+        done();
         break;
 
         case "deSelectProduct":
         context.dispatch("PRODUCT_DESELECTED", payload.data);
+        done();
         break;
 
         case "receiveProducts":

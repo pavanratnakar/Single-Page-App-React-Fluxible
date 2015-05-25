@@ -14,6 +14,6 @@ app.rehydrate(dehydratedState, function (err, context) {
 
     var Component = app.getComponent();
     React.render(Component({
-        context:context.getComponentContext()
+        context: context.getComponentContext()
     }), mountNode);
 });

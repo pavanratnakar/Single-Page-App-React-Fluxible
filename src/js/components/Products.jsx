@@ -19,13 +19,13 @@ var Products = React.createClass({
 
         var products = t.props.products.map(function (p) {
             return (
-                <Product key={p.id} id={p.id} server={p.server} secret={p.secret} title={p.title} farm={t.state.farm} onClick={t.productChange} />
+                <Product context={t.props.context} key={p.id} id={p.id} server={p.server} secret={p.secret} title={p.title} farm={t.state.farm} onClick={t.productChange} />
             )
         });
 
         return (
             <div className="all-products page">
-                <Filters categories={t.props.categories} />
+                <Filters context={t.props.context} categories={t.props.categories} />
                 <ul className="products-list Fx(0) Op(0) P(0) Ta(c) Maw(1500px) Mstart(225px) visible_Op(1) visible_Trsde(1s) visible_Pe(a)">
                     {products}
                 </ul>

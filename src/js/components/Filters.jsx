@@ -13,30 +13,29 @@ var Filters = React.createClass({
 
     filterClickHandler: function (e) {
         e.preventDefault();
-        console.log(this);
 
         var node = $(e.currentTarget),
             id = node.data("cid");
 
         if (node.is(":checked")) {
-            this.context.executeAction(categoryActions, {
+            this.props.context.executeAction(categoryActions, {
                 type: "selectCategory",
                 data: id
-            });
+            }, function () {});
         } else {
-            this.context.executeAction(categoryActions, {
+            this.props.context.executeAction(categoryActions, {
                 type: "deSelectCategory",
                 data: id
-            });
+            }, function () {});
         }
     },
 
     resetClickHandler: function (e) {
         e.preventDefault();
-        this.context.executeAction(categoryActions, {
+        this.props.context.executeAction(categoryActions, {
             type: "deSelectCategory",
             data: null
-        });
+        }, function () {});
     },
 
     render: function () {

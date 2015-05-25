@@ -5,10 +5,11 @@ var React = require("react"),
     ApplicationStore = require("../stores/ApplicationStore"),
     ProductStore = require("../stores/ProductStore"),
     CategoryStore = require("../stores/CategoryStore"),
-    ProductActions = require("../actions/ProductActions"),
-    CategoryActions = require("../actions/CategoryActions"),
     FluxibleMixin = require("fluxible/addons/FluxibleMixin"),
     RouterMixin = require("fluxible-router").RouterMixin,
+    navigateAction = require("fluxible-router").navigateAction,
+    productActions = require("../actions/ProductActions"),
+    categoryActions = require("../actions/CategoryActions"),
     _ = require("lodash");
 
 // Export the ReactApp component
@@ -40,7 +41,13 @@ var ReactApp = React.createClass({
         } else if (filters.length > 0) {
             tr = "/filters/{\"category\":" + JSON.stringify(filters) + "}";
         }
-        // t.context.router.transitionTo(tr);
+        // t.props.context.executeAction(navigateAction, {
+        //     type: "click",
+        //     url: "/product",
+        //     params: {
+
+        //     }
+        // });
     },
 
     getState: function () {
@@ -87,7 +94,7 @@ var ReactApp = React.createClass({
         if (route.get("name") === "notFound") {
             t.showNotFound();
         } else {
-            if (route.get("params").productId) {
+            if (route.get("params").get("productId")) {
                 t.showProductPage();
             } else {
                 t.showProductsPage();
@@ -108,21 +115,25 @@ var ReactApp = React.createClass({
         if (route.get("name") === "notFound") {
             state = {};
         } else {
-            // HACKY WAY OF ADDING ACTIONS. ORIGINAL OBJECTS SHOULD BE SMART ENOUGH HERE
-            if (route.get("params").productId) {
-                ProductActions.selectProduct(route.get("params").productId);
+            if (route.get("params").get("productId")) {
+                t.props.context.executeAction(productActions, {
+                    type: "selectProduct",
+                    data: route.get("params").get("productId")
+                }, function () {});
             }
-            if (route.get("params").filters) {
-                var f = JSON.parse(route.get("params").filters);
+            if (route.get("params").get("filters")) {
+                var f = JSON.parse(route.get("params").get("filters"));
                 _.each(f.category, function (category) {
-                    CategoryActions.selectCategory(category);
+                    t.props.context.executeAction(categoryActions, {
+                        type: "selectCategory",
+                        data: category
+                    });
                 });
             }
             state = t.getState();
         }
         state = t.getState();
         t.currentProps = state;
-        t.currentProps.context = t.context;
     },
 
     componentDidMount: function () {
@@ -135,7 +146,7 @@ var ReactApp = React.createClass({
 
         return (
             <div className="main-content Bxz(bb) Ta(c) M(a) Mstart(45px) Mend(60px) Pstart(40px) Pend(40px) Mx(auto)--sm My(45px)--sm Px(24px)--sm Py(0)--sm">
-                <Handler {...t.currentProps} />
+                <Handler {...t.currentProps} context={t.props.context} />
             </div>
         )
     }
