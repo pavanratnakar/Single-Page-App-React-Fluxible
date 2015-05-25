@@ -17,6 +17,7 @@ module.exports = function (context, payload, done) {
 
         case "receiveCategories":
         context.dispatch("CATEGORY_RECEIVE_DATA", payload.data);
+        done();
         break;
 
         default:

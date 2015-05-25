@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports = function (context, payload, done) {
+
     switch (payload.type) {
 
         case "selectProduct":
@@ -14,7 +15,7 @@ module.exports = function (context, payload, done) {
         case "receiveProducts":
         context.dispatch("PRODUCT_RECEIVE_DATA", payload.data);
         done();
-        break
+        break;
 
         default:
         break;

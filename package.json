@@ -1,7 +1,7 @@
 {
-    "name": "singlepage-app-react-flux",
+    "name": "singlepage-app-react-fluxible",
     "version": "0.1.0",
-    "description": "Single Page App Using Grunt, Node, Less, Eslint, React, Flux architecture on server and client",
+    "description": "Single Page App Using Grunt, Node, Less, Eslint, React, Fluxible architecture on server and client",
     "author": "Pavan Ratnakar <pavanratnakar@gmail.com>",
     "main": "app.js",
     "dependencies": {
@@ -14,9 +14,10 @@
         "path": "*",
         "env": "*",
         "react": "*",
-        "react-router": "*",
         "fluxible": "*",
         "fluxible-plugin-fetchr": "*",
+        "fluxible-router": "*",
+        "fluxible-plugin-routr": "*",
         "node-jsx": "*"
     },
     "devDependencies": {
@@ -38,10 +39,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/pavanratnakar/Single-Page-App-React"
+        "url": "https://github.com/pavanratnakar/Single-Page-App-React-Fluxible"
     },
     "bugs": {
-        "url": "https://github.com/pavanratnakar/Single-Page-App-React/issues"
+        "url": "https://github.com/pavanratnakar/Single-Page-App-React-Fluxible/issues"
     },
     "homepage": ""
 }

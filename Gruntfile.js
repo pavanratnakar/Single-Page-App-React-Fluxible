@@ -9,7 +9,7 @@ module.exports = function(grunt) {
             app: {
                 options: {
                     ie: true,
-                    configFile: "./config/atomic-config.js"
+                    configFile: "./configs/atomic-config.js"
                 },
                 files: [{
                     src: ["src/**/**/*.jsx"],
@@ -62,10 +62,11 @@ module.exports = function(grunt) {
             all: [
                 "gruntfile.js",
                 "lib/*.js",
-                "app.js"
+                "app.js",
+                "client.js"
             ],
             options: {
-                config: "config/eslint.json"
+                config: "configs/eslint.json"
             }
         },
 

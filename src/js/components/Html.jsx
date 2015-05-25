@@ -1,8 +1,11 @@
 /** @jsx React.DOM */
 
-var React = require("react");
+var React = require("react"),
+    ApplicationStore = require("../stores/ApplicationStore"),
+    FluxibleMixin = require("fluxible/addons/FluxibleMixin");
 
 var Html = React.createClass({
+    mixins: [FluxibleMixin],
     render: function() {
         return (
             <html>
@@ -10,7 +13,7 @@ var Html = React.createClass({
                     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
                     <meta charSet="utf-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                    <title>Single Page App using React, Fluxible, Node.js, Atomic CSS (Atomizer), Less.js, Grunt - Pavan Ratankar</title>
+                    <title>{this.getStore(ApplicationStore).getPageTitle()}</title>
                     <link href="dist/style_less.min.css" rel="stylesheet" />
                 </head>
                 <body>

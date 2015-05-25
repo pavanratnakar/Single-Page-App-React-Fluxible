@@ -1,31 +1,26 @@
 /** @jsx React.DOM */
 
 var React = require("react"),
-    ProductStore = require("../stores/ProductStore.js"),
-    CategoryStore = require("../stores/CategoryStore.js"),
+    RouteStore = require("../stores/RouteStore"),
+    ApplicationStore = require("../stores/ApplicationStore"),
+    ProductStore = require("../stores/ProductStore"),
+    CategoryStore = require("../stores/CategoryStore"),
     ProductActions = require("../actions/ProductActions"),
     CategoryActions = require("../actions/CategoryActions"),
-    Router = require("react-router"),
+    FluxibleMixin = require("fluxible/addons/FluxibleMixin"),
+    RouterMixin = require("fluxible-router").RouterMixin,
     _ = require("lodash");
-
-var RouteHandler = Router.RouteHandler;
 
 // Export the ReactApp component
 var ReactApp = React.createClass({
 
-    mixins: [require('fluxible-app').StoreMixin],
+    mixins: [RouterMixin, FluxibleMixin],
 
     statics: {
-        storeListeners: {
-            _onChange: [ProductStore, CategoryStore]
-        }
+        storeListeners: [ApplicationStore, ProductStore, CategoryStore]
     },
 
-    contextTypes: {
-        router: React.PropTypes.func
-    },
-
-    _onChange: function () {
+    onChange: function () {
         var t = this,
             state = t.getState(),
             tr = "/",
@@ -53,6 +48,7 @@ var ReactApp = React.createClass({
             categoryStore = this.getStore(CategoryStore);
 
         return {
+            page: this.getStore(ApplicationStore).getState(),
             products: productStore.getProducts(categoryStore.getActiveCategories()),
             product: productStore.getProduct() || {},
             categories: categoryStore.getCategories()
@@ -85,16 +81,17 @@ var ReactApp = React.createClass({
     },
 
     loadPage: function () {
-        var t = this;
+        var t = this,
+            route = t.getStore(RouteStore).getCurrentRoute();
 
-        if (t.isActive("notfound")) {
+        if (route.get("name") === "notFound") {
             t.showNotFound();
         } else {
-            //if (t.context.router.getCurrentParams().productId) {
-                // t.showProductPage();
-            //} else {
+            if (route.get("params").productId) {
+                t.showProductPage();
+            } else {
                 t.showProductsPage();
-            //}
+            }
         }
     },
 
@@ -105,25 +102,27 @@ var ReactApp = React.createClass({
 
     componentWillMount: function () {
         var t = this,
-            state = {};
+            state = {},
+            route = t.getStore(RouteStore).getCurrentRoute();
 
-        // if (t.isActive("notfound")) {
-        //     state = {};
-        // } else {
-        //     // HACKY WAY OF ADDING ACTIONS. ORIGINAL OBJECTS SHOULD BE SMART ENOUGH HERE
-        //     if (t.context.router.getCurrentParams().productId) {
-        //         ProductActions.selectProduct(t.context.router.getCurrentParams().productId);
-        //     }
-        //     if (t.context.router.getCurrentParams().filters) {
-        //         var f = JSON.parse(t.context.router.getCurrentParams().filters);
-        //         _.each(f.category, function (category) {
-        //             CategoryActions.selectCategory(category);
-        //         });
-        //     }
-        //     state = t.getState();
-        // }
+        if (route.get("name") === "notFound") {
+            state = {};
+        } else {
+            // HACKY WAY OF ADDING ACTIONS. ORIGINAL OBJECTS SHOULD BE SMART ENOUGH HERE
+            if (route.get("params").productId) {
+                ProductActions.selectProduct(route.get("params").productId);
+            }
+            if (route.get("params").filters) {
+                var f = JSON.parse(route.get("params").filters);
+                _.each(f.category, function (category) {
+                    CategoryActions.selectCategory(category);
+                });
+            }
+            state = t.getState();
+        }
         state = t.getState();
         t.currentProps = state;
+        t.currentProps.context = t.context;
     },
 
     componentDidMount: function () {
@@ -131,11 +130,12 @@ var ReactApp = React.createClass({
     },
 
     render: function () {
-        var t = this;
+        var t = this,
+            Handler = t.getStore(RouteStore).getCurrentRoute().get("handler");
 
         return (
             <div className="main-content Bxz(bb) Ta(c) M(a) Mstart(45px) Mend(60px) Pstart(40px) Pend(40px) Mx(auto)--sm My(45px)--sm Px(24px)--sm Py(0)--sm">
-                <div>Place Holder</div>
+                <Handler {...t.currentProps} />
             </div>
         )
     }

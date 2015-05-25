@@ -1,8 +1,11 @@
 var React = require("react"),
-    CategoryActions = require("../actions/CategoryActions.js");
+    categoryActions = require("../actions/CategoryActions.js"),
+    FluxibleMixin = require("fluxible/addons/FluxibleMixin");
 
 // Export the ReactApp component
 var Filters = React.createClass({
+
+    mixins: [FluxibleMixin],
 
     getInitialState: function () {
         return {}
@@ -10,20 +13,30 @@ var Filters = React.createClass({
 
     filterClickHandler: function (e) {
         e.preventDefault();
+        console.log(this);
 
         var node = $(e.currentTarget),
             id = node.data("cid");
 
         if (node.is(":checked")) {
-            CategoryActions.selectCategory(id);
+            this.context.executeAction(categoryActions, {
+                type: "selectCategory",
+                data: id
+            });
         } else {
-            CategoryActions.deSelectCategory(id);
+            this.context.executeAction(categoryActions, {
+                type: "deSelectCategory",
+                data: id
+            });
         }
     },
 
     resetClickHandler: function (e) {
         e.preventDefault();
-        CategoryActions.deSelectCategories(null);
+        this.context.executeAction(categoryActions, {
+            type: "deSelectCategory",
+            data: null
+        });
     },
 
     render: function () {

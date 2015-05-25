@@ -6,4 +6,3 @@
 3. node app.js
 4. Access
 	1. http://localhost:8004
-	2. http://localhost:8004/react
